@@ -6,23 +6,22 @@ import ItemList from '../item-list';
 import PersonDetails from '../person-details';
 
 import './app.css';
+import PeoplePage from '../people-page/people-page';
 
-const App = () => {
-  return (
-    <div>
-      <Header />
-      <RandomPlanet />
+class App extends React.Component {
+  state = {
 
-      <div className="row mb2">
-        <div className="col-md-6">
-          <ItemList />
-        </div>
-        <div className="col-md-6">
-          <PersonDetails />
-        </div>
-      </div>
-    </div>
-  );
+  }
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <RandomPlanet />
+        <PeoplePage />
+      </div >
+    );
+  }
 };
 
 export default App;

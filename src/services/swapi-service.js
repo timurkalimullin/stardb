@@ -2,6 +2,12 @@ export default class SwapiService {
 
   _apiBase = 'https://swapi.dev/api';
 
+  constructor() {
+    this._transformPerson = this._transformPerson.bind(this);
+    this._transformPlanet = this._transformPlanet.bind(this);
+    this._transformStarship = this._transformStarship.bind(this);
+  }
+
   async getResource(url) {
     const res = await fetch(`${this._apiBase}${url}`);
 
@@ -76,8 +82,8 @@ export default class SwapiService {
       id: this._extractId(person),
       name: person.name,
       gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color
     }
   }
 }
