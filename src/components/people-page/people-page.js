@@ -1,47 +1,79 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import ItemList from '../item-list/index';
-import PersonDetails from '../person-details/index';
+import ItemList from '../item-list/item-list';
+import ItemDetails from '../item-details/item-details';
+import SwapiService from '../../services/swapi-service';
+import Row from '../row';
+import ErrorBoundry from '../error-boundry';
 
 import './people-page.css';
-import ErrorIndicator from '../error-indicator/error-indicator';
 
-export default class PeoplePage extends React.Component {
+export default class PeoplePage extends Component {
+
+  swapiService = new SwapiService();
+
   state = {
-    selectedPerson: 1,
-    hasError: false
-  }
+    selectedPerson: 3,
+    selectedStarship: 10
+  };
 
-  componentDidCatch() {
-    this.setState({
-      hasError: true
-    })
-  }
+  onPersonSelected = (selectedPerson) => {
+    this.setState({ selectedPerson });
+  };
 
-  onPersonSelected = (id) => {
-    this.setState({
-      selectedPerson: id
-    })
-  }
+  onStarshipSelected = (selectedStarship) => {
+    this.setState({ selectedStarship });
+  };
 
   render() {
-    if (this.state.hasError) {
-      return <ErrorIndicator />;
-    }
+
+    const personList = (
+      <ItemList
+        onItemSelected={this.onPersonSelected}
+        getData={this.swapiService.getAllPeople}>
+
+        {(i) => (
+          `${i.name} (${i.birthYear})`
+        )}
+
+      </ItemList>
+    );
+
+    const personDetails = (
+      <ErrorBoundry>
+        <ItemDetails
+          itemId={this.state.selectedPerson}
+          getData={this.swapiService.getPerson}
+          getImageUrl={this.swapiService.getPersonImage} />
+      </ErrorBoundry>
+    );
+
+    const starshipList = (
+      <ItemList
+        onItemSelected={this.onStarshipSelected}
+        getData={this.swapiService.getAllStarships}>
+
+        {(i) => (
+          `${i.name}, (${i.manufacturer})`
+        )}
+
+      </ItemList>
+    );
+
+    const starshipDetails = (
+      <ErrorBoundry>
+        <ItemDetails
+          itemId={this.state.selectedStarship}
+          getData={this.swapiService.getStarship}
+          getImageUrl={this.swapiService.getStarshipImage} />
+      </ErrorBoundry>
+    );
 
     return (
-      <div className="row mb2">
-        <div className="col-md-6">
-          <ItemList
-            onItemSelected={this.onPersonSelected}
-          />
-        </div>
-        <div className="col-md-6">
-          <PersonDetails
-            personId={this.state.selectedPerson}
-          />
-        </div>
-      </div>
+      <React.Fragment>
+        <Row left={personList} right={personDetails} />
+        <Row left={starshipList} right={starshipDetails} />
+      </React.Fragment>
     )
   }
 }
