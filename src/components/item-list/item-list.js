@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './item-list.css';
 import Spinner from "../spinner/spinner";
 
-export default class ItemList extends Component {
+class ItemList extends Component {
 
   state = {
     itemList: null
@@ -53,3 +53,13 @@ export default class ItemList extends Component {
     );
   }
 }
+
+const f = () => {
+  return class extends Component {
+    render() {
+      return <ItemList {...this.props} />;
+    }
+  };
+}
+
+export default f();

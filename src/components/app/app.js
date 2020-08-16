@@ -4,6 +4,7 @@ import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ErrorButton from '../error-button';
 import PeoplePage from '../people-page';
+import StarshipPage from '../starship-page/index';
 import ErrorBoundry from "../error-boundry";
 
 import './app.css';
@@ -25,14 +26,14 @@ export default class App extends Component {
   render() {
 
     const planet = this.state.showRandomPlanet ?
-      <RandomPlanet/> :
+      <RandomPlanet /> :
       null;
 
     return (
       <ErrorBoundry>
         <div className="stardb-app">
           <Header />
-          { planet }
+          {planet}
 
           <div className="row mb2 button-row">
             <button
@@ -44,6 +45,7 @@ export default class App extends Component {
           </div>
 
           <PeoplePage />
+          <StarshipPage />
 
         </div>
       </ErrorBoundry>

@@ -7,9 +7,9 @@ import Row from '../row';
 import ErrorBoundry from '../error-boundry';
 import { Record } from '../item-details/item-details';
 
-import './people-page.css';
+import './starship-page.css';
 
-export default class PeoplePage extends Component {
+export default class StarshipPage extends Component {
 
   swapiService = new SwapiService();
 
@@ -27,33 +27,33 @@ export default class PeoplePage extends Component {
   };
 
   render() {
-
-    const personList = (
+    const starshipList = (
       <ItemList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}>
+        onItemSelected={this.onStarshipSelected}
+        getData={this.swapiService.getAllStarships}>
 
         {(i) => (
-          `${i.name} (${i.birthYear})`
+          `${i.name}`
         )}
 
       </ItemList>
     );
 
-    const personDetails = (
+    const starshipDetails = (
       <ErrorBoundry>
         <ItemDetails
-          itemId={this.state.selectedPerson}
-          getData={this.swapiService.getPerson}
-          getImageUrl={this.swapiService.getPersonImage}>
-          <Record field="gender" label="Gender" />
-          <Record field="eyeColor" label="Eye color" />
-          <Record field="birthYear" label="Birth year" />
+          itemId={this.state.selectedStarship}
+          getData={this.swapiService.getStarship}
+          getImageUrl={this.swapiService.getStarshipImage} >
+          <Record field="manufacturer" label="Manufacturer" />
+          <Record field="length" label="Length" />
+          <Record field="model" label="Model" />
         </ItemDetails>
       </ErrorBoundry>
     );
+
     return (
-      <Row left={personList} right={personDetails} />
+      <Row left={starshipList} right={starshipDetails} />
     )
   }
 }
