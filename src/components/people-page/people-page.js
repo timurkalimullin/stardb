@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
 import ItemList from '../item-list/item-list';
-import ItemDetails from '../item-details/item-details';
-import SwapiService from '../../services/swapi-service';
-import Row from '../row';
-import ErrorBoundry from '../error-boundry';
-import { Record } from '../item-details/item-details';
+import PersonDetails from '../person-details/person-details';
+import ErrorIndicator from '../error-indicator/error-indicator';
 
 import './people-page.css';
+import SwapiService from "../../services/swapi-service";
 
 export default class PeoplePage extends Component {
 
@@ -15,45 +13,37 @@ export default class PeoplePage extends Component {
 
   state = {
     selectedPerson: 3,
-    selectedStarship: 10
+    hasError: false
   };
+
+  componentDidCatch(error, info) {
+
+    this.setState({
+      hasError: true
+    });
+  }
 
   onPersonSelected = (selectedPerson) => {
     this.setState({ selectedPerson });
   };
 
-  onStarshipSelected = (selectedStarship) => {
-    this.setState({ selectedStarship });
-  };
-
   render() {
 
-    const personList = (
-      <ItemList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}>
+    if (this.state.hasError) {
+      return <ErrorIndicator />;
+    }
 
-        {(i) => (
-          `${i.name} (${i.birthYear})`
-        )}
-
-      </ItemList>
-    );
-
-    const personDetails = (
-      <ErrorBoundry>
-        <ItemDetails
-          itemId={this.state.selectedPerson}
-          getData={this.swapiService.getPerson}
-          getImageUrl={this.swapiService.getPersonImage}>
-          <Record field="gender" label="Gender" />
-          <Record field="eyeColor" label="Eye color" />
-          <Record field="birthYear" label="Birth year" />
-        </ItemDetails>
-      </ErrorBoundry>
-    );
     return (
-      <Row left={personList} right={personDetails} />
-    )
+      <div className="row mb2">
+        <div className="col-md-6">
+          <ItemList
+            onItemSelected={this.onPersonSelected}
+            getData={this.swapiService.getAllPeople}/>
+        </div>
+        <div className="col-md-6">
+          <PersonDetails personId={this.state.selectedPerson} />
+        </div>
+      </div>
+    );
   }
 }
