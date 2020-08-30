@@ -39,13 +39,13 @@ export default class App extends Component {
     }
 
     const planet = this.state.showRandomPlanet ?
-      <RandomPlanet/> :
+      <RandomPlanet /> :
       null;
 
     return (
       <div className="stardb-app">
         <Header />
-        { planet }
+        {planet}
 
         <div className="row mb2 button-row">
           <button
@@ -58,11 +58,12 @@ export default class App extends Component {
 
         <PeoplePage />
 
-        <div className="row mb2">
+        {/* <div className="row mb2">
           <div className="col-md-6">
             <ItemList
               onItemSelected={this.onPersonSelected}
-              getData={this.swapiService.getAllPlanets} />
+              getData={this.swapiService.getAllPlanets}
+              renderItem={({ name, diameter }) => `${name}, (${diameter} km)`} />
           </div>
           <div className="col-md-6">
             <PersonDetails personId={this.state.selectedPerson} />
@@ -73,12 +74,13 @@ export default class App extends Component {
           <div className="col-md-6">
             <ItemList
               onItemSelected={this.onPersonSelected}
-              getData={this.swapiService.getAllStarships} />
+              getData={this.swapiService.getAllStarships}
+              renderItem={(item) => item.name} />
           </div>
           <div className="col-md-6">
             <PersonDetails personId={this.state.selectedPerson} />
           </div>
-        </div>
+        </div> */}
 
       </div>
     );
