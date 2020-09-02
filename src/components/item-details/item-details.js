@@ -9,7 +9,7 @@ const Record = ({ item, field, label }) => {
   return (
     <li className="list-group-item">
       <span className="term">{label}</span>
-      <span>{ item[field] }</span>
+      <span>{item[field]}</span>
     </li>
   );
 };
@@ -33,7 +33,7 @@ export default class ItemDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.itemId !== prevProps.itemId) {
+    if (this.props.itemId !== prevProps.itemId || this.props.getData !== prevProps.getData) {
       this.updateItem();
     }
   }
@@ -60,14 +60,13 @@ export default class ItemDetails extends Component {
       return <span>Select a item from a list</span>;
     }
 
-    const { id, name, gender,
-              birthYear, eyeColor } = item;
+    const { name } = item;
 
     return (
       <div className="item-details card">
         <img className="item-image"
           src={image}
-          alt="item"/>
+          alt="item" />
 
         <div className="card-body">
           <h4>{name}</h4>
